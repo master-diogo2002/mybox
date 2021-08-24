@@ -1,0 +1,94 @@
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> -->
+<script src='jquery.js'></script>
+<script src='home_animation.js'></script>
+<!-- <script src="{{ url_for('static', filename='home_update2.js') }}"></script> -->
+
+<link rel="stylesheet" href='bootstrap.css'>
+<link rel="stylesheet" href='home_style.css'>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/js/collapse.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script> -->
+
+
+
+
+<div class="row dashboard-cards" id='cards'>
+
+<!-- Referencia -->
+   <div class="card col-md-4">
+    <div class="card-title">
+      <h2>
+        Agreement Task
+        <small>
+        <button type="button" class="btn btn-outline-dark" onclick="window.location.href='/page2'">Continue</button>
+      </small> 
+      </h2>
+      <div class="task-count" >43</div>
+    </div>
+    <div class="card-flap flap1">
+      <div class="card-description">
+        <ul class="task-list">
+          <li>Sent Question Pending</li>
+          <li>
+            Sent Answer Pending
+            <span>11%</span>
+          </li>
+          <li>
+            File Attchment Pending
+            <span>100%</span>
+          </li>
+          <li>
+            Document Send Pending
+            <span>7%</span>
+          </li>
+        </ul>
+      </div>
+      <div class="card-flap flap2">
+        <div class="card-actions">
+          <a class="btn" href="#">Close</a>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+
+  
+ <!-- {% for pasta in range(0,len_pastas)%}
+
+   <div class="card col-md-4">
+    <div class="card-title">
+      <h2>
+        {{pastas[0][pasta]}}
+        <small>
+        <button type="button" class="btn btn-outline-dark" onclick='window.location.href="{{ url_for('main_page',f_id=pastas[0][pasta])}}"'>Continue</button>
+      </small> 
+      </h2>
+     
+    </div>
+    <div class="card-flap flap1">
+      <div class="card-description">
+        <ul class="task-list">
+          {% for ficheiros in pastas[1][pasta]%}
+          <li onclick='location.href="{{ url_for('get_file',folder_id=pastas[0][pasta],file_id=ficheiros)}}"'>{{ ficheiros }}</li>
+          {%endfor%}
+        </ul>
+      </div>
+      <div class="card-flap flap2">
+        <div class="card-actions">
+          <a class="btn" href="#">Close</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%endfor%}  -->
+
+
+
+
+
+
+</div>
+<!-- <script src="{{ url_for('static', filename='home_update2.js') }}"></script> -->
+
