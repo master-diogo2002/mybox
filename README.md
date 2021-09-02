@@ -9,3 +9,4 @@ TODO:
 - [ ] Audio player
 - [ ] Image viewer
 - [ ] Method to delete files
+- [ ] create zip files efficiently
