@@ -22,4 +22,4 @@ class db_operations:
             
 
         except:
-            return False #user nao existente
+            return False #user not existent

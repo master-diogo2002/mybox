@@ -15,7 +15,7 @@ f = open("ip_ban_list.txt", "r")
 for x in f:
     ip_ban_list.append(x)
 
-print(f' * IPS BANIDOS:{ip_ban_list}')
+print(f' * BANNED IPS:{ip_ban_list}')
 
 
 @app.before_request
@@ -90,7 +90,7 @@ def index_page_cat(categoria):
 
 
 
-##################rota de upload #render da pagina#################
+##################upload route #page render#################
 @app.route('/upload/<f_id>/<folder_id>', methods=['GET'])
 def main_page3(f_id='main',folder_id='main'):
     pasta_main=os.listdir(f'./ficheiros/{f_id}')#lista das pastas do diretorio principal
@@ -117,7 +117,7 @@ def upload_file(f1_id='main',folder_id='main'):
 ######################################################################
 
 
-########################view dos ficheiros (json)######################
+########################view files (json)######################
 @app.route('/files/<folder_id>')
 def files_list(folder_id):
     ficheiros=os.listdir('./ficheiros')
