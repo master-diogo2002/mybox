@@ -1,5 +1,5 @@
 # Mybox
-mybox is a personal cloud system project to store files with a simple interface
+Mybox is a personal cloud system project to store files with a simple interface
 
 Requirements:
 * Flask
