@@ -58,29 +58,29 @@ def index_page():
         lista=[]
         main_list_pastas=[]
         main_list_ficheiros=[]
-        main_=os.listdir('./ficheiros')
+        main_=os.listdir('./files')
         for pasta in main_:
             lista=[]
-            for pasta_ in os.listdir('./ficheiros/'+pasta):
+            for pasta_ in os.listdir('./files/'+pasta):
                 lista.append(pasta_)
             main_list_pastas.append(pasta)
             main_list_ficheiros.append(lista)
         return render_template('paginas/home.html',pastas=(main_list_pastas,main_list_ficheiros),len_pastas=len(main_list_pastas),len_ficheiros=len(main_list_ficheiros))
 ###################################################################
-#################home page-categorias######################################
+
+#################home page-category######################################
 @app.route('/main/<categoria>')
 def index_page_cat(categoria):
-    print('eeeeeeeee')
     if not session.get('logged_in'):
         return redirect('/login')
     else:
         lista=[]
         main_list_pastas=[]
         main_list_ficheiros=[]
-        main_=os.listdir(f'./ficheiros/{categoria}')
+        main_=os.listdir(f'./files/{categoria}')
         for pasta in main_:
             lista=[]
-            for pasta_ in os.listdir(f'./ficheiros/{categoria}/'+pasta):
+            for pasta_ in os.listdir(f'./files/{categoria}/'+pasta):
                 lista.append(pasta_)
             main_list_pastas.append(pasta)
             main_list_ficheiros.append(lista)
@@ -93,11 +93,11 @@ def index_page_cat(categoria):
 ##################upload route #page render#################
 @app.route('/upload/<f_id>/<folder_id>', methods=['GET'])
 def main_page3(f_id='main',folder_id='main'):
-    pasta_main=os.listdir(f'./ficheiros/{f_id}')#lista das pastas do diretorio principal
+    pasta_main=os.listdir(f'./files/{f_id}')#lista das pastas do diretorio principal
     pastas_list=[]
     print(pasta_main)
     for pastas in pasta_main:
-        if os.path.isdir(os.path.join(f'./ficheiros/{f_id}', pastas)):
+        if os.path.isdir(os.path.join(f'./files/{f_id}', pastas)):
             pastas_list.append(pastas)
 
     if str(folder_id) in pastas_list or f_id=='main':
@@ -107,12 +107,12 @@ def main_page3(f_id='main',folder_id='main'):
 #####################################################################
 
 
-###################rota para envio de ficheiros######################
+###################route to send files######################
 @app.route('/upload/<f1_id>/<folder_id>', methods=['POST'])
 def upload_file(f1_id='main',folder_id='main'):
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
-        uploaded_file.save(f'./ficheiros/{f1_id}/{folder_id}/'+uploaded_file.filename)
+        uploaded_file.save(f'./files/{f1_id}/{folder_id}/'+uploaded_file.filename)
     return render_template('paginas/index.html')
 ######################################################################
 
@@ -120,11 +120,11 @@ def upload_file(f1_id='main',folder_id='main'):
 ########################view files (json)######################
 @app.route('/files/<folder_id>')
 def files_list(folder_id):
-    ficheiros=os.listdir('./ficheiros')
+    ficheiros=os.listdir('./files')
     if folder_id =='main':
-        return jsonify(filelist=ficheiros)#retorna a lista de ficheiros em json
+        return jsonify(filelist=ficheiros)#retorn a file list in json
     elif folder_id in ficheiros:
-        ficheiros_pasta=os.listdir('./ficheiros/'+folder_id)
+        ficheiros_pasta=os.listdir('./files/'+folder_id)
         return jsonify(filelist=ficheiros_pasta)
     else:
         return render_template('paginas/404.html', title = '404'), 404
@@ -133,23 +133,23 @@ def files_list(folder_id):
 def list_all_files():
     lista=[]
     main_list=[]
-    main_=os.listdir('./ficheiros')
+    main_=os.listdir('./files')
     for pasta in main_:
         lista=[]
-        for pasta_ in os.listdir('./ficheiros/'+pasta):
+        for pasta_ in os.listdir('./files/'+pasta):
             lista.append(pasta_)
         main_list.append({'nome_pasta':pasta,'lista':lista})
     return jsonify(filelist=main_list)
 #######################################################################
 
 
-###################Login (render da pagina)#############################
+###################Login (page render)#############################
 @app.route('/login', methods=['GET'])
 def login():
     return render_template('paginas/login.html')
 ########################################################################
 
-##################Login (rota principal)################################
+##################Login (POST ROUT)################################
 @app.route('/login', methods=['POST'])
 def make_login():
     print(request.form)
@@ -157,7 +157,6 @@ def make_login():
     if db_operations(str(request.form['User']),str(request.form['Password'])).verify_user() == True:
         session['user_id']=request.form['User']
         session['user_pass']=request.form['Password']
-        print('logadoooooooo')
         session['logged_in'] = True
         return redirect('/')
     else:
@@ -183,11 +182,11 @@ def get_file(folder_id,folder1_id,file_id):
     try:
         if folder_id=='main':
             filename = file_id
-            return send_from_directory(directory='./ficheiros',filename=file_id, as_attachment=True)
+            return send_from_directory(directory='./files',filename=file_id, as_attachment=True)
         else:
-            return send_from_directory(directory=f'./ficheiros/{folder_id}/{folder1_id}',path=file_id, as_attachment=True)
+            return send_from_directory(directory=f'./files/{folder_id}/{folder1_id}',path=file_id, as_attachment=True)
             print(file_id)
-    except FileNotFoundError:#quando o ficheiro nao existe
+    except FileNotFoundError:#if file dont exist
         abort(404)
 
 @app.route("/get/zip/<folder_id>")
@@ -195,40 +194,40 @@ def test(folder_id):
     zip_files().writezip(folder_id)
     return send_from_directory(directory='./temp',path=f'{folder_id}.zip', as_attachment=True)
     os.remove(f'./temp/{folder_id}.zip')
-    print('ficheiros removidos')
+    print('files removed')
 
 
 
 
 
-#criar pasta
+#create folder
 @app.route("/create/<folder_name>")
 def create_folder(folder_name):
-    path="./ficheiros/"+folder_name
-    pasta_main=os.listdir('./ficheiros')
-    if folder_name not in pasta_main:#verifica se a pasta ja existe
+    path="./files/"+folder_name
+    pasta_main=os.listdir('./files')
+    if folder_name not in pasta_main:#verify if the folder exists
         try:
-            os.mkdir(path)#cria a pasta
-            return render_template('paginas/404.html', title = '404'), 404 ##TODO Fazer pagina de sucesso
+            os.mkdir(path)#make a folder
+            return render_template('paginas/404.html', title = '404'), 404 ##TODO make sucess page
         except OSError:
-            return render_template('paginas/404.html', title = '404'), 404 ##TODO Fazer pagina de erro
+            return render_template('paginas/404.html', title = '404'), 404 ##TODO error page
     else:
-        return render_template('paginas/404.html', title = '404'), 404 ##TODO Fazer pagina de erro
+        return render_template('paginas/404.html', title = '404'), 404 ##TODO error page
 
 
-
+# create sub-folder
 @app.route("/main/<cat>/create/<folder_name>")
 def create_cat(cat,folder_name):
-    path=f"./ficheiros/{cat}/{folder_name}"
-    pasta_main=os.listdir(f'./ficheiros/{cat}')
-    if folder_name not in pasta_main:#verifica se a pasta ja existe
+    path=f"./files/{cat}/{folder_name}"
+    pasta_main=os.listdir(f'./files/{cat}')
+    if folder_name not in pasta_main:#verify if the folder exists
         try:
-            os.mkdir(path)#cria a pasta
-            return render_template('paginas/404.html', title = '404'), 404 ##TODO Fazer pagina de sucesso
+            os.mkdir(path)##make a folder
+            return render_template('paginas/404.html', title = '404'), 404 ##TODO make sucess page
         except OSError:
-            return render_template('paginas/404.html', title = '404'), 404 ##TODO Fazer pagina de erro
+            return render_template('paginas/404.html', title = '404'), 404 ##TODO error page
     else:
-        return render_template('paginas/404.html', title = '404'), 404 ##TODO Fazer pagina de erro
+        return render_template('paginas/404.html', title = '404'), 404 ##TODO error page
 
 
 
