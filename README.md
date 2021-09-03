@@ -1,5 +1,5 @@
 # Mybox
-Mybox is a personal cloud system project to store files with a simple interface
+Mybox is a personal cloud system project to store files with a simple interface the code is written in python with flask and uses sqlite for database system
 
 Requirements:
 * Flask
